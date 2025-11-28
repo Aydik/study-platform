@@ -3,7 +3,7 @@
   cursor: pointer;
   box-sizing: border-box;
   width: 100%;
-  height: 220px;
+  height: 180px;
   padding: 1.5rem 1rem;
   background-color: white;
   border-radius: 1rem;
@@ -14,6 +14,10 @@
   &:hover {
     background-color: color-mix(in srgb, var(--color-primary) 10%, white);
     color: color-mix(in srgb, var(--color-primary) 80%, black);
+  }
+
+  &_student{
+    height: 220px;
   }
 }
 
