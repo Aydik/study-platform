@@ -42,7 +42,7 @@ export const RegisterForm: FC = () => {
         password: validated.password,
         role: currentRole,
       });
-      navigate('/storage');
+      navigate('/');
       message.destroy();
       message.info('Вы успешно зарегистрировались');
     } catch (error) {

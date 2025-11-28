@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useRoutes } from 'react-router-dom';
+import { Navigate, useRoutes } from 'react-router-dom';
 import type { RouteObject } from 'react-router-dom';
 import { AuthLayout } from 'app/layout/AuthLayout';
 import { LoginForm, RegisterForm } from 'features/auth';
@@ -8,6 +8,7 @@ import { TeacherHomePage } from 'pages/teacher/TeacherHomePage';
 import { StudentHomePage } from 'pages/student/StudentHomePage';
 import { TeacherLayout } from 'app/layout/TeacherLayout';
 import { StudentLayout } from 'app/layout/StudentLayout';
+import { IndexPage } from 'pages/IndexPage';
 
 const routeConfig: RouteObject[] = [
   {
@@ -44,6 +45,14 @@ const routeConfig: RouteObject[] = [
             element: <StudentHomePage />,
           },
         ],
+      },
+      {
+        path: '/',
+        element: <IndexPage />,
+      },
+      {
+        path: '*',
+        element: <Navigate to="/" replace />,
       },
     ],
   },
