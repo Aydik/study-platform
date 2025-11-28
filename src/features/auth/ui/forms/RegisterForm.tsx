@@ -35,6 +35,8 @@ export const RegisterForm: FC = () => {
       await register({
         email: validated.email,
         password: validated.password,
+        firstName: validated.firstName, // Добавляем firstName
+        lastName: validated.lastName,   // Добавляем lastName
       });
       navigate('/storage');
       message.destroy();
@@ -60,6 +62,52 @@ export const RegisterForm: FC = () => {
     <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       <Typography.Title className={styles.title}>Регистрация</Typography.Title>
       <div className={styles.fields}>
+        {/* Добавляем поле Имя */}
+        <div className={styles.inputWrapper}>
+          <Typography className={styles.fieldLabel}>Имя</Typography>
+          <Controller
+            name="firstName"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Введите ваше имя"
+                status={errors.firstName ? 'error' : ''}
+                size="large"
+                autoComplete="given-name"
+              />
+            )}
+          />
+          {errors.firstName && (
+            <Typography.Text type="danger" className={styles.errorText}>
+              {errors.firstName.message}
+            </Typography.Text>
+          )}
+        </div>
+
+        {/* Добавляем поле Фамилия */}
+        <div className={styles.inputWrapper}>
+          <Typography className={styles.fieldLabel}>Фамилия</Typography>
+          <Controller
+            name="lastName"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                placeholder="Введите вашу фамилию"
+                status={errors.lastName ? 'error' : ''}
+                size="large"
+                autoComplete="family-name"
+              />
+            )}
+          />
+          {errors.lastName && (
+            <Typography.Text type="danger" className={styles.errorText}>
+              {errors.lastName.message}
+            </Typography.Text>
+          )}
+        </div>
+
         <div className={styles.inputWrapper}>
           <Typography className={styles.fieldLabel}>Email</Typography>
           <Controller

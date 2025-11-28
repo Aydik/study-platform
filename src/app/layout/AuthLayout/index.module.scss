@@ -1,0 +1,17 @@
+.loaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.authLayout {
+  height: 100vh;
+
+  main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
