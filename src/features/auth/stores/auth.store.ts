@@ -64,7 +64,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     //   set({ user: null });
     // }
     await new Promise((resolve) => {
-      setTimeout(resolve, 1000);
+      setTimeout(resolve, 500);
     });
     const user: User = {
       id: 1,
