@@ -1,0 +1,35 @@
+.logoutButton {
+  all: unset;
+  height: 40px;
+  width: 100%;
+  transition: 0.3s;
+  color: var(--color-dark-blue);
+  opacity: 0.8;
+  text-decoration: none;
+  box-sizing: border-box;
+  padding: 7px 0;
+  display: flex;
+  align-items: end;
+  justify-content: start;
+
+  svg {
+    flex: 45px 0 0;
+  }
+
+  span {
+    font-weight: 500;
+    color: inherit;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &:hover,
+  &_selected {
+    opacity: 1;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: var(--color-blue);
+  }
+}
