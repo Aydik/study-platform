@@ -1,0 +1,53 @@
+.loaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.main {
+  padding-top: 80px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin content {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.headerWrapper {
+  @include content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainWrapper {
+  padding: 3rem 0 2rem;
+  height: 100%;
+  @include content;
+}
+
+.greeting{
+  font-weight: bold;
+  font-size: 1.5rem;
+  line-height: 1rem;
+  color: white;
+}

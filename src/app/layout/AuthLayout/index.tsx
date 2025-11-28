@@ -16,16 +16,17 @@ export const AuthLayout: FC = () => {
         message.info('Вы уже прошли аутентификацию');
         messageShown.current = true;
       }
-      navigate('/storage');
+      if (user?.role === 'TEACHER') navigate('/teacher');
+      else navigate('/student');
     }
   }, [init, message, navigate, user]);
 
-  // if (init)
-  //   return (
-  //     <div className={styles.loaderWrapper}>
-  //       <Spin />
-  //     </div>
-  //   );
+  if (init)
+    return (
+      <div className={styles.loaderWrapper}>
+        <Spin />
+      </div>
+    );
 
   if (!user)
     return (
