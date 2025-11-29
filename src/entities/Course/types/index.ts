@@ -1,6 +1,13 @@
 export interface Course {
   id: string;
   title: string;
-  description: string;
+  description?: string;
   teacherName?: string;
+}
+
+export interface CreateCourseFormValues {
+  title: string;
+  description?: string;
+  isPrivate: boolean;
+  accessCode?: string;
 }

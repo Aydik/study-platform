@@ -4,6 +4,7 @@ import { Button } from 'antd';
 import type { Course } from 'entities/Course';
 import { PlusOutlined } from '@ant-design/icons';
 import { CourseCard } from 'entities/Course';
+import { useNavigate } from 'react-router-dom';
 
 export const mockCourses: Course[] = [
   {
@@ -54,11 +55,16 @@ export const mockCourses: Course[] = [
 ];
 
 export const TeacherHomePage: FC = () => {
+  const navigate = useNavigate();
   return (
-    <div className={styles.teacherHomePage}>
+    <div>
       <div className={styles.caption}>
         <h1>Мои курсы</h1>
-        <Button className={styles.addButton} icon={<PlusOutlined />}>
+        <Button
+          className={styles.addButton}
+          icon={<PlusOutlined />}
+          onClick={() => navigate('/teacher/course/create')}
+        >
           Создать курс
         </Button>
       </div>

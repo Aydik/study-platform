@@ -56,12 +56,20 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   checkAuth: async () => {
-    try {
-      const res = await getProfile();
-      const user: User = res?.data?.data;
-      set({ user });
-    } catch (error) {
-      set({ user: null });
-    }
+    // try {
+    //   const res = await getProfile();
+    //   const user: User = res?.data?.data;
+    //   set({ user });
+    // } catch (error) {
+    //   set({ user: null });
+    // }
+    const user: User = {
+      id: 1,
+      firstName: 'Кирилл',
+      lastName: 'Айдаров',
+      email: 'Aydik@gmail.com',
+      role: 'TEACHER',
+    };
+    set({ isLoading: false, user: user });
   },
 }));
