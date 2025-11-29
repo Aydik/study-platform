@@ -1,24 +1,57 @@
-import { type FC, useState } from 'react';
+import { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { Form, Input, Switch, Button, Card, Space, Divider, App } from 'antd';
 import { LockOutlined, GlobalOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import styles from './index.module.scss';
-import type { CreateCourseFormValues } from 'entities/Course';
-import { createCourse } from 'entities/Course/services/course.teacher.service.ts';
-import { useNavigate } from 'react-router-dom';
+import type { Course, EditCourseFormValues } from 'entities/Course';
+import { useCourseTeacherStore } from 'entities/Course/stores/course.teacher.store.ts';
+import { DeleteCourseButton } from 'features/DeleteCourseButton';
 
-export const CreateCourseForm: FC = () => {
-  const navigate = useNavigate();
+export const EditCourseForm: FC = () => {
   const { message } = App.useApp();
 
   const [form] = Form.useForm();
   const [isPrivateCourse, setIsPrivateCourse] = useState(false);
 
-  const handleSubmit: FormProps<CreateCourseFormValues>['onFinish'] = async (values) => {
+  const { isLoading, course, editCourse } = useCourseTeacherStore();
+
+  const resetFields = useCallback(() => {
+    if (course) {
+      const formValues: Partial<EditCourseFormValues> = {
+        title: course.title,
+        description: course.description,
+        keyword: course.keyword,
+      };
+      setIsPrivateCourse(course.isPrivateCourse);
+      form.setFieldValue('isPrivateCourse', course.isPrivateCourse);
+      form.setFieldsValue(formValues);
+    }
+  }, [course, form]);
+
+  const formValues = Form.useWatch([], form);
+
+  const isDisabled = useMemo<boolean>(() => {
+    if (!course || !formValues) return true;
+
+    for (const fieldName in formValues) {
+      const formValue = formValues[fieldName];
+      const courseValue = course[fieldName as keyof Course];
+      if (formValue == null && courseValue == null) continue;
+      if (formValue !== courseValue) return false;
+    }
+
+    return true;
+  }, [course, formValues]);
+
+  useEffect(() => {
+    resetFields();
+  }, [resetFields]);
+
+  const handleSubmit: FormProps<EditCourseFormValues>['onFinish'] = async (values) => {
     try {
-      await createCourse(values);
-      message.info('Курс успешно создан');
-      navigate('/teacher');
+      if (course) {
+        editCourse(course?.id, values).then(() => message.info('Курс успешно изменен'));
+      }
     } catch (error: any) {
       const data = error?.response?.data?.data;
       if (data && typeof data === 'object') {
@@ -32,7 +65,7 @@ export const CreateCourseForm: FC = () => {
     }
   };
 
-  const handleValuesChange = (changedValues: Partial<CreateCourseFormValues>) => {
+  const handleValuesChange = (changedValues: Partial<EditCourseFormValues>) => {
     if ('isPrivateCourse' in changedValues) {
       setIsPrivateCourse(changedValues.isPrivateCourse ?? false);
 
@@ -43,8 +76,8 @@ export const CreateCourseForm: FC = () => {
   };
 
   return (
-    <Card title="Создание курса" className={styles.card}>
-      <Form<CreateCourseFormValues>
+    <Card title="Редактирование курса" className={styles.card}>
+      <Form<EditCourseFormValues>
         form={form}
         layout="vertical"
         onFinish={handleSubmit}
@@ -127,18 +160,18 @@ export const CreateCourseForm: FC = () => {
         {/* Кнопки действий */}
         <Form.Item className={styles.actions}>
           <Space size="middle">
-            <Button type="primary" htmlType="submit" size="large">
-              Создать курс
+            <DeleteCourseButton id={course?.id} />
+            <Button htmlType="button" size="large" onClick={resetFields} disabled={isDisabled}>
+              Сбросить
             </Button>
             <Button
-              htmlType="button"
+              type="primary"
+              htmlType="submit"
               size="large"
-              onClick={() => {
-                form.resetFields();
-                setIsPrivateCourse(false);
-              }}
+              loading={isLoading}
+              disabled={isDisabled}
             >
-              Очистить
+              Сохранить
             </Button>
           </Space>
         </Form.Item>

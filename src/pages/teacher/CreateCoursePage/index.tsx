@@ -8,7 +8,7 @@ import { CreateCourseForm } from 'widgets/CreateCourseForm';
 export const CreateCoursePage: FC = () => {
   const navigate = useNavigate();
   return (
-    <div>
+    <div className={styles.createCoursePage}>
       <Button
         className={styles.backButton}
         icon={<RollbackOutlined />}

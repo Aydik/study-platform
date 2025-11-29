@@ -63,13 +63,5 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch (error) {
       set({ user: null });
     }
-    // const user: User = {
-    //   id: 1,
-    //   firstName: 'Кирилл',
-    //   lastName: 'Айдаров',
-    //   email: 'Aydik@gmail.com',
-    //   role: 'TEACHER',
-    // };
-    // set({ isLoading: false, user: user });
   },
 }));

@@ -10,6 +10,7 @@ import { TeacherLayout } from 'app/layout/TeacherLayout';
 import { StudentLayout } from 'app/layout/StudentLayout';
 import { IndexPage } from 'pages/IndexPage';
 import { CreateCoursePage } from 'pages/teacher/CreateCoursePage';
+import { EditCoursePage } from 'pages/teacher/EditCoursePage';
 
 const routeConfig: RouteObject[] = [
   {
@@ -36,6 +37,10 @@ const routeConfig: RouteObject[] = [
           {
             index: true,
             element: <TeacherHomePage />,
+          },
+          {
+            path: 'course/:id',
+            element: <EditCoursePage />,
           },
           {
             path: 'course/create',
