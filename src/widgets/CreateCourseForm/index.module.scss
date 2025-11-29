@@ -1,11 +1,5 @@
-.form {
-  .accessCodeItem {
-    animation: slideDown 0.3s ease-out;
-
-    .input {
-      border-radius: 6px;
-    }
-  }
+.accessCodeItem {
+  animation: slideDown 0.3s ease-out;
 }
 
 @keyframes slideDown {
