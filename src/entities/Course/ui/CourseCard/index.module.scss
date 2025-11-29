@@ -14,6 +14,7 @@
   &:hover {
     background-color: color-mix(in srgb, var(--color-primary) 10%, white);
     color: color-mix(in srgb, var(--color-primary) 80%, black);
+    transform: scale(1.05);
   }
 
   &_student{
