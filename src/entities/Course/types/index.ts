@@ -8,6 +8,6 @@ export interface Course {
 export interface CreateCourseFormValues {
   title: string;
   description?: string;
-  isPrivate: boolean;
-  accessCode?: string;
+  isPrivateCourse: boolean;
+  keyword?: string;
 }

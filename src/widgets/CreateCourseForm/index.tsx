@@ -1,24 +1,43 @@
 import { type FC, useState } from 'react';
-import { Form, Input, Switch, Button, Card, Space, Divider } from 'antd';
+import { Form, Input, Switch, Button, Card, Space, Divider, App } from 'antd';
 import { LockOutlined, GlobalOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import styles from './index.module.scss';
 import type { CreateCourseFormValues } from 'entities/Course';
+import { createCourse } from 'entities/Course/services/course.teacher.service.ts';
+import { useNavigate } from 'react-router-dom';
 
 export const CreateCourseForm: FC = () => {
-  const [form] = Form.useForm();
-  const [isPrivate, setIsPrivate] = useState(false);
+  const navigate = useNavigate();
+  const { message } = App.useApp();
 
-  const handleSubmit: FormProps<CreateCourseFormValues>['onFinish'] = (values) => {
-    console.log('Form values:', values);
+  const [form] = Form.useForm();
+  const [isPrivateCourse, setIsPrivateCourse] = useState(false);
+
+  const handleSubmit: FormProps<CreateCourseFormValues>['onFinish'] = async (values) => {
+    try {
+      await createCourse(values);
+      message.info('Курс успешно создан');
+      navigate('/teacher');
+    } catch (error: any) {
+      const data = error?.response?.data?.data;
+      if (data && typeof data === 'object') {
+        const fieldErrors = Object.entries(data).map(([field, message]) => ({
+          name: field === 'capacity' ? 'quantity' : field,
+          errors: [String(message)],
+        }));
+
+        form.setFields(fieldErrors);
+      }
+    }
   };
 
   const handleValuesChange = (changedValues: Partial<CreateCourseFormValues>) => {
-    if ('isPrivate' in changedValues) {
-      setIsPrivate(changedValues.isPrivate ?? false);
+    if ('isPrivateCourse' in changedValues) {
+      setIsPrivateCourse(changedValues.isPrivateCourse ?? false);
 
-      if (!changedValues.isPrivate) {
-        form.setFieldValue('accessCode', undefined);
+      if (!changedValues.isPrivateCourse) {
+        form.setFieldValue('keyword', undefined);
       }
     }
   };
@@ -34,8 +53,8 @@ export const CreateCourseForm: FC = () => {
         initialValues={{
           title: '',
           description: '',
-          isPrivate: false,
-          accessCode: '',
+          isPrivateCourse: false,
+          keyword: '',
         }}
       >
         {/* Название курса */}
@@ -73,7 +92,7 @@ export const CreateCourseForm: FC = () => {
         {/* Приватный курс */}
         <Form.Item
           label="Приватный курс"
-          name="isPrivate"
+          name="isPrivateCourse"
           valuePropName="checked"
           className={styles.switchItem}
         >
@@ -85,20 +104,16 @@ export const CreateCourseForm: FC = () => {
         </Form.Item>
 
         {/* Кодовое слово (только для приватных курсов) */}
-        {isPrivate && (
+        {isPrivateCourse && (
           <Form.Item
             label="Кодовое слово для доступа"
-            name="accessCode"
+            name="keyword"
             rules={[
               { required: true, message: 'Пожалуйста, введите кодовое слово' },
               { min: 4, message: 'Кодовое слово должно содержать минимум 4 символа' },
               { max: 20, message: 'Кодовое слово не должно превышать 20 символов' },
-              {
-                pattern: /^[a-zA-Z0-9_-]+$/,
-                message: 'Можно использовать только латинские буквы, цифры, дефисы и подчеркивания',
-              },
             ]}
-            className={styles.accessCodeItem}
+            className={styles.keywordItem}
           >
             <Input.Password
               placeholder="Введите кодовое слово для доступа к курсу"
@@ -120,7 +135,7 @@ export const CreateCourseForm: FC = () => {
               size="large"
               onClick={() => {
                 form.resetFields();
-                setIsPrivate(false);
+                setIsPrivateCourse(false);
               }}
               className={styles.resetButton}
             >
