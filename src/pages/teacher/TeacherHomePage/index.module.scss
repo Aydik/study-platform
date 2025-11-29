@@ -1,0 +1,27 @@
+.caption{
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+}
+
+.addButton{
+  color: black;
+}
+
+.courses{
+  margin-top: 2rem;
+  list-style: none;
+  display: grid;
+  row-gap: 1rem;
+  column-gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  justify-content: space-between;
+}
+
+.courseItem {
+  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
+  position: relative;
+}

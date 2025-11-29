@@ -1,9 +1,8 @@
 .logoutButton {
   all: unset;
   height: 40px;
-  width: 100%;
   transition: 0.3s;
-  color: var(--color-dark-blue);
+  color: white;
   opacity: 0.8;
   text-decoration: none;
   box-sizing: border-box;
@@ -30,6 +29,6 @@
 
   &:hover {
     cursor: pointer;
-    color: var(--color-blue);
+    transform: scale(1.02);
   }
 }

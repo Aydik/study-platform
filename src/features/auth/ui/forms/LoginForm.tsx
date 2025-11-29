@@ -36,7 +36,7 @@ export const LoginForm: FC = () => {
         email: validated.email,
         password: validated.password,
       });
-      navigate('/storage');
+      navigate('/');
       message.destroy();
       message.info('Вы успешно прошли аутентификацию');
     } catch (error) {
