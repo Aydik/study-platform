@@ -20,4 +20,15 @@ export default defineConfig({
       shared: path.resolve(__dirname, './src/shared'),
     },
   },
+  server: {
+    port: 5173,
+    proxy: {
+      '/api/v1': {
+        changeOrigin: true,
+        secure: false,
+        target: 'http://192.168.3.29:8080',
+      },
+    },
+    strictPort: true,
+  },
 });
